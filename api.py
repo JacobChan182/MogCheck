@@ -12,14 +12,13 @@ app = FastAPI()
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
 # Allow both the environment variable and common Firebase URLs
 allowed_origins = [
-    FRONTEND_URL,
     "http://localhost:3000",
     "https://mogcheck0182.web.app",
     "https://mogcheck0182.firebaseapp.com",
 ]
-# Remove duplicates while preserving order
-seen = set()
-allowed_origins = [x for x in allowed_origins if not (x in seen or seen.add(x))]
+# Add FRONTEND_URL if it's different from the defaults
+if FRONTEND_URL not in allowed_origins:
+    allowed_origins.append(FRONTEND_URL)
 
 app.add_middleware(
     CORSMiddleware,
