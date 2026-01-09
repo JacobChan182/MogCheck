@@ -11,4 +11,4 @@ services:
         sync: false
       - key: FRONTEND_URL
         sync: false
-        value: https://your-frontend-url.onrender.com
+        value: https://mogcheck0182.web.app
