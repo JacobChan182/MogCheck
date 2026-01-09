@@ -15,14 +15,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Initialize and update submodules
+        run: |
+          git submodule update --init --recursive
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - name: Check frontend directory
+      - name: Verify frontend directory
         run: |
           ls -la frontend/ || echo "Frontend directory not found"
-          ls -la frontend/package.json || echo "package.json not found"
+          test -f frontend/package.json && echo "package.json found" || echo "package.json not found"
       - name: Install dependencies
         working-directory: ./frontend
         run: |
