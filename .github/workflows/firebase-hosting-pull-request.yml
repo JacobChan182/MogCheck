@@ -13,10 +13,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+      - name: Check frontend directory
+        run: |
+          ls -la frontend/ || echo "Frontend directory not found"
+          ls -la frontend/package.json || echo "package.json not found"
       - name: Install dependencies
         working-directory: ./frontend
         run: |
