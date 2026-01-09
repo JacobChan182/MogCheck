@@ -10,9 +10,20 @@ app = FastAPI()
 
 # Enable CORS for frontend
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
+# Allow both the environment variable and common Firebase URLs
+allowed_origins = [
+    FRONTEND_URL,
+    "http://localhost:3000",
+    "https://mogcheck0182.web.app",
+    "https://mogcheck0182.firebaseapp.com",
+]
+# Remove duplicates while preserving order
+seen = set()
+allowed_origins = [x for x in allowed_origins if not (x in seen or seen.add(x))]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL, "http://localhost:3000"],  # React dev server and production
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
