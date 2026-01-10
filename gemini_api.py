@@ -1,4 +1,5 @@
 import os
+import json
 import google.generativeai as genai
 from dotenv import load_dotenv
 from PIL import Image
@@ -144,3 +145,75 @@ def generate_from_image(image_data: bytes, prompt: str = DEFAULT_FACIAL_ANALYSIS
         return _clean_markdown(response.text)
     except Exception as e:
         raise Exception(f"Error generating content from image: {str(e)}")
+
+
+def generate_insults_from_ratings(ratings: dict) -> list:
+    """Generate five blackpilled insults based on the five lowest rated facial features."""
+    _validate_model()
+    
+    try:
+        # Filter out ratings that are 101 (insufficient information) and get valid ratings
+        valid_ratings = {k: v for k, v in ratings.items() if isinstance(v, int) and v != 101}
+        
+        if len(valid_ratings) < 5:
+            # If there are fewer than 5 valid ratings, use what we have
+            sorted_ratings = sorted(valid_ratings.items(), key=lambda x: x[1])
+        else:
+            # Get the 5 lowest rated features
+            sorted_ratings = sorted(valid_ratings.items(), key=lambda x: x[1])[:5]
+        
+        if not sorted_ratings:
+            return ["No valid ratings available for insult generation."]
+        
+        # Create a readable list of the worst features
+        worst_features = []
+        for feature, rating in sorted_ratings:
+            feature_name = feature.replace('_rating', '').replace('_', ' ').title()
+            worst_features.append(f"{feature_name} (rating: {rating})")
+        
+        # Create prompt for insult generation
+        features_text = "\n".join([f"- {feat}" for feat in worst_features])
+        insult_prompt = f"""Based on the following lowest-rated facial features, generate exactly 5 creative, brutal, and humorous insults. Each insult should be specific to one of the features listed. Be brutally honest and critical, but make them witty and memorable.
+
+Worst Features:
+{features_text}
+
+Generate exactly 5 insults as a JSON array. Format:
+[
+  "insult 1 about the first worst feature",
+  "insult 2 about the second worst feature",
+  "insult 3 about the third worst feature",
+  "insult 4 about the fourth worst feature",
+  "insult 5 about the fifth worst feature"
+]
+
+Return ONLY the JSON array, no additional text or explanation."""
+        
+        response = model.generate_content(insult_prompt)
+        response_text = _clean_markdown(response.text)
+        
+        # Parse JSON array
+        insults = json.loads(response_text)
+        
+        # Ensure we have exactly 5 insults (pad or truncate if needed)
+        if isinstance(insults, list):
+            while len(insults) < 5 and len(worst_features) > len(insults):
+                insults.append(f"Your {worst_features[len(insults)].split(' (')[0].lower()} needs serious work.")
+            return insults[:5]
+        else:
+            # If not a list, convert to list
+            return [str(insults)] * 5 if insults else ["Unable to generate insults."]
+            
+    except json.JSONDecodeError:
+        # If JSON parsing fails, try to extract insults from text
+        try:
+            # Try to extract array-like structure
+            import re
+            matches = re.findall(r'"([^"]+)"', response_text)
+            if matches:
+                return matches[:5]
+        except:
+            pass
+        return ["Failed to parse insults from response."]
+    except Exception as e:
+        raise Exception(f"Error generating insults: {str(e)}")

@@ -4,7 +4,7 @@ import os
 from fastapi import FastAPI, HTTPException, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from gemini_api import generate_from_image
+from gemini_api import generate_from_image, generate_insults_from_ratings
 
 app = FastAPI()
 
@@ -27,6 +27,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class InsultsResponse(BaseModel):
+    insults: list[str]
 
 class PromptResponse(BaseModel):
 
@@ -92,6 +95,7 @@ class PromptResponse(BaseModel):
     nose_lip_chin_harmony_rating: int
     jaw_recession_rating: int
     cervicomental_angle_rating: int
+    
 
 
 @app.get("/")
@@ -157,3 +161,22 @@ async def generate_gemini_response(
         raise HTTPException(status_code=500, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating response: {str(e)}")
+
+
+@app.post("/api/insults/", response_model=InsultsResponse)
+async def generate_insults(ratings: PromptResponse):
+    """Generate five insults based on the five lowest rated facial features."""
+    try:
+        # Convert Pydantic model to dict
+        ratings_dict = ratings.model_dump()
+        
+        # Generate insults from the ratings
+        insults = generate_insults_from_ratings(ratings_dict)
+        
+        return InsultsResponse(insults=insults)
+    except ValueError as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error generating insults: {str(e)}")

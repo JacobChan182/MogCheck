@@ -17,7 +17,9 @@ function App() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [response, setResponse] = useState(null);
+  const [insults, setInsults] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadingInsults, setLoadingInsults] = useState(false);
   const [error, setError] = useState('');
   const [isDragging, setIsDragging] = useState(false);
 
@@ -76,26 +78,62 @@ function App() {
 
     setLoading(true);
     setError('');
-    setResponse('');
+    setResponse(null);
+    setInsults(null);
 
     try {
       const formData = new FormData();
       formData.append('image', selectedImage);
 
-      const API_URL = process.env.REACT_APP_API_URL || 'https://mogcheck-api.onrender.com';
-      const res = await fetch(`${API_URL}/api/gemini/`, {
-        method: 'POST',
-        body: formData,
-      });
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      console.log('Calling API at:', `${API_URL}/api/gemini/`);
+      
+      let res;
+      try {
+        res = await fetch(`${API_URL}/api/gemini/`, {
+          method: 'POST',
+          body: formData,
+        });
+      } catch (fetchErr) {
+        throw new Error(`Failed to connect to backend at ${API_URL}. Make sure the backend is running. Error: ${fetchErr.message}`);
+      }
 
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.detail || 'Failed to get response');
+        let errorData;
+        try {
+          errorData = await res.json();
+        } catch {
+          errorData = { detail: `Server returned status ${res.status}: ${res.statusText}` };
+        }
+        throw new Error(errorData.detail || `Failed to get response (${res.status})`);
       }
 
       const data = await res.json();
       setResponse(data);
+      
+      // Fetch insults based on the ratings
+      setLoadingInsults(true);
+      try {
+        const insultsRes = await fetch(`${API_URL}/api/insults/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (insultsRes.ok) {
+          const insultsData = await insultsRes.json();
+          setInsults(insultsData.insults);
+        }
+      } catch (insultErr) {
+        console.error('Error fetching insults:', insultErr);
+        // Don't show error for insults, just continue without them
+      } finally {
+        setLoadingInsults(false);
+      }
     } catch (err) {
+      console.error('API Error:', err);
       setError(err.message || 'An error occurred');
     } finally {
       setLoading(false);
@@ -203,6 +241,25 @@ function App() {
             <LipPerioralArea data={response} />
             <SkinRating data={response} />
             <ProfileView data={response} />
+            
+            {(insults || loadingInsults) && (
+              <div className="insults-box">
+                <h3 className="insults-title">Insults Based on Your Worst Features</h3>
+                {loadingInsults ? (
+                  <p style={{ color: 'rgba(255, 255, 255, 0.6)' }}>Generating insults...</p>
+                ) : insults && insults.length > 0 ? (
+                  <ul className="insults-list">
+                    {insults.map((insult, index) => (
+                      <li key={index} className="insult-item">
+                        {insult}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p style={{ color: 'rgba(255, 255, 255, 0.6)' }}>No insults available.</p>
+                )}
+              </div>
+            )}
           </div>
         )}
       </header>
