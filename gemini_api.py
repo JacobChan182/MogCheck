@@ -1,12 +1,14 @@
 import os
 import json
+from pathlib import Path
 import google.generativeai as genai
 from dotenv import load_dotenv
 from PIL import Image
 import io
 
-# Load environment variables from .env file
-load_dotenv()
+# Load environment variables from .env file (in the same directory as this script)
+env_path = Path(__file__).parent / '.env'
+load_dotenv(dotenv_path=env_path)
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
