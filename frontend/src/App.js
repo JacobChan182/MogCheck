@@ -9,7 +9,7 @@ import MidfaceRatings from './components/categories/MidfaceRatings';
 import EyeRatings from './components/categories/EyeRatings';
 import BrowForeheadRatings from './components/categories/BrowForeheadRatings';
 import NasalBoneStructureRatings from './components/categories/NasalBoneStructureRatings';
-import LipPerioralArea from './components/LipPerioralArea';
+import LipPerioralArea from './components/categories/LipPerioralArea';
 import SkinRating from './components/categories/SkinRating';
 import ProfileView from './components/categories/ProfileView';
 
