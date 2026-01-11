@@ -1,14 +1,15 @@
-import './RatingBox.css';
+import '../RatingBox.css';
 
-function MandibleRatings({ data }) {
+function MidfaceRatings({ data }) {
   const ratings = {
-    mandible_width_rating: data.mandible_width_rating,
-    ramus_height_rating: data.ramus_height_rating
+    midface_length_rating: data.midface_length_rating,
+    maxillary_projection_rating: data.maxillary_projection_rating,
+    under_eye_support_rating: data.under_eye_support_rating
   };
 
   return (
     <div className="rating-box">
-      <h3 className="rating-box-title">Mandible Ratings</h3>
+      <h3 className="rating-box-title">Midface Ratings</h3>
       <div className="rating-box-content">
         {Object.entries(ratings).map(([key, value]) => (
           <div key={key} className="rating-item">
@@ -21,4 +22,4 @@ function MandibleRatings({ data }) {
   );
 }
 
-export default MandibleRatings;
+export default MidfaceRatings;

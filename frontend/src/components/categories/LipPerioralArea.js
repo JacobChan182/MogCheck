@@ -1,15 +1,15 @@
-import './RatingBox.css';
+import '../RatingBox.css';
 
-function CheekboneRatings({ data }) {
+function LipPerioralArea({ data }) {
   const ratings = {
-    cheekbone_height_rating: data.cheekbone_height_rating,
-    cheekbone_width_rating: data.cheekbone_width_rating,
-    hollow_cheek_rating: data.hollow_cheek_rating
+    lip_to_chin_rating: data.lip_to_chin_rating,
+    cupid_bow_rating: data.cupid_bow_rating,
+    maxilla_support_rating: data.maxilla_support_rating
   };
 
   return (
     <div className="rating-box">
-      <h3 className="rating-box-title">Cheekbone Ratings</h3>
+      <h3 className="rating-box-title">Lip/Perioral Area</h3>
       <div className="rating-box-content">
         {Object.entries(ratings).map(([key, value]) => (
           <div key={key} className="rating-item">
@@ -22,4 +22,4 @@ function CheekboneRatings({ data }) {
   );
 }
 
-export default CheekboneRatings;
+export default LipPerioralArea;

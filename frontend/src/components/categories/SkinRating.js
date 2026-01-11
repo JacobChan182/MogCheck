@@ -1,14 +1,16 @@
-import './RatingBox.css';
+import '../RatingBox.css';
 
-function Chin({ data }) {
+function SkinRating({ data }) {
   const ratings = {
-    chin_projection_rating: data.chin_projection_rating,
-    chin_alignment_rating: data.chin_alignment_rating
+    skin_tightness_rating: data.skin_tightness_rating,
+    facial_fat_rating: data.facial_fat_rating,
+    skin_texture_rating: data.skin_texture_rating,
+    eyebag_rating: data.eyebag_rating
   };
 
   return (
     <div className="rating-box">
-      <h3 className="rating-box-title">Chin</h3>
+      <h3 className="rating-box-title">Skin Rating</h3>
       <div className="rating-box-content">
         {Object.entries(ratings).map(([key, value]) => (
           <div key={key} className="rating-item">
@@ -21,4 +23,4 @@ function Chin({ data }) {
   );
 }
 
-export default Chin;
+export default SkinRating;

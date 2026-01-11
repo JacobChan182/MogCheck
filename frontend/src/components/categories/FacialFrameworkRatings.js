@@ -1,16 +1,16 @@
-import './RatingBox.css';
+import '../RatingBox.css';
 
-function SkinRating({ data }) {
+function FacialFrameworkRatings({ data }) {
   const ratings = {
-    skin_tightness_rating: data.skin_tightness_rating,
-    facial_fat_rating: data.facial_fat_rating,
-    skin_texture_rating: data.skin_texture_rating,
-    eyebag_rating: data.eyebag_rating
+    facial_symmetry_rating: data.facial_symmetry_rating,
+    facial_thirds_rating: data.facial_thirds_rating,
+    facial_growth_rating: data.facial_growth_rating,
+    fWHR_rating: data.fWHR_rating
   };
 
   return (
     <div className="rating-box">
-      <h3 className="rating-box-title">Skin Rating</h3>
+      <h3 className="rating-box-title">Facial Framework Ratings</h3>
       <div className="rating-box-content">
         {Object.entries(ratings).map(([key, value]) => (
           <div key={key} className="rating-item">
@@ -23,4 +23,4 @@ function SkinRating({ data }) {
   );
 }
 
-export default SkinRating;
+export default FacialFrameworkRatings;

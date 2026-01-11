@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import './App.css';
-import FacialFrameworkRatings from './components/FacialFrameworkRatings';
-import JawlineRatings from './components/JawlineRatings';
-import Chin from './components/Chin';
-import MandibleRatings from './components/MandibleRatings';
-import CheekboneRatings from './components/CheekboneRatings';
-import MidfaceRatings from './components/MidfaceRatings';
-import EyeRatings from './components/EyeRatings';
-import BrowForeheadRatings from './components/BrowForeheadRatings';
-import NasalBoneStructureRatings from './components/NasalBoneStructureRatings';
+import FacialFrameworkRatings from './components/categories/FacialFrameworkRatings';
+import JawlineRatings from './components/categories/JawlineRatings';
+import Chin from './components/categories/Chin';
+import MandibleRatings from './components/categories/MandibleRatings';
+import CheekboneRatings from './components/categories/CheekboneRatings';
+import MidfaceRatings from './components/categories/MidfaceRatings';
+import EyeRatings from './components/categories/EyeRatings';
+import BrowForeheadRatings from './components/categories/BrowForeheadRatings';
+import NasalBoneStructureRatings from './components/categories/NasalBoneStructureRatings';
 import LipPerioralArea from './components/LipPerioralArea';
-import SkinRating from './components/SkinRating';
-import ProfileView from './components/ProfileView';
+import SkinRating from './components/categories/SkinRating';
+import ProfileView from './components/categories/ProfileView';
 
 function App() {
   const [selectedImage, setSelectedImage] = useState(null);

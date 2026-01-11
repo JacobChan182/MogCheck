@@ -1,16 +1,14 @@
-import './RatingBox.css';
+import '../RatingBox.css';
 
-function FacialFrameworkRatings({ data }) {
+function JawlineRatings({ data }) {
   const ratings = {
-    facial_symmetry_rating: data.facial_symmetry_rating,
-    facial_thirds_rating: data.facial_thirds_rating,
-    facial_growth_rating: data.facial_growth_rating,
-    fWHR_rating: data.fWHR_rating
+    sharpness_rating: data.sharpness_rating,
+    gonial_angle_rating: data.gonial_angle_rating
   };
 
   return (
     <div className="rating-box">
-      <h3 className="rating-box-title">Facial Framework Ratings</h3>
+      <h3 className="rating-box-title">Jawline Ratings</h3>
       <div className="rating-box-content">
         {Object.entries(ratings).map(([key, value]) => (
           <div key={key} className="rating-item">
@@ -23,4 +21,4 @@ function FacialFrameworkRatings({ data }) {
   );
 }
 
-export default FacialFrameworkRatings;
+export default JawlineRatings;

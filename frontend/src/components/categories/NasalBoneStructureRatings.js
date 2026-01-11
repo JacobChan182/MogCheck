@@ -1,4 +1,4 @@
-import './RatingBox.css';
+import '../RatingBox.css';
 
 function NasalBoneStructureRatings({ data }) {
   const ratings = {

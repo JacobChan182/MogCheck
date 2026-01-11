@@ -1,14 +1,15 @@
-import './RatingBox.css';
+import '../RatingBox.css';
 
-function JawlineRatings({ data }) {
+function EyeRatings({ data }) {
   const ratings = {
-    sharpness_rating: data.sharpness_rating,
-    gonial_angle_rating: data.gonial_angle_rating
+    canthal_tilt_rating: data.canthal_tilt_rating,
+    eye_setness_rating: data.eye_setness_rating,
+    eye_spacing_rating: data.eye_spacing_rating
   };
 
   return (
     <div className="rating-box">
-      <h3 className="rating-box-title">Jawline Ratings</h3>
+      <h3 className="rating-box-title">Eye Ratings</h3>
       <div className="rating-box-content">
         {Object.entries(ratings).map(([key, value]) => (
           <div key={key} className="rating-item">
@@ -21,4 +22,4 @@ function JawlineRatings({ data }) {
   );
 }
 
-export default JawlineRatings;
+export default EyeRatings;

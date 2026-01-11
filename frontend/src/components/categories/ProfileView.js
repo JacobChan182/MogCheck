@@ -1,15 +1,16 @@
-import './RatingBox.css';
+import '../RatingBox.css';
 
-function MidfaceRatings({ data }) {
+function ProfileView({ data }) {
   const ratings = {
-    midface_length_rating: data.midface_length_rating,
-    maxillary_projection_rating: data.maxillary_projection_rating,
-    under_eye_support_rating: data.under_eye_support_rating
+    facial_convexity_rating: data.facial_convexity_rating,
+    nose_lip_chin_harmony_rating: data.nose_lip_chin_harmony_rating,
+    jaw_recession_rating: data.jaw_recession_rating,
+    cervicomental_angle_rating: data.cervicomental_angle_rating
   };
 
   return (
     <div className="rating-box">
-      <h3 className="rating-box-title">Midface Ratings</h3>
+      <h3 className="rating-box-title">Profile View</h3>
       <div className="rating-box-content">
         {Object.entries(ratings).map(([key, value]) => (
           <div key={key} className="rating-item">
@@ -22,4 +23,4 @@ function MidfaceRatings({ data }) {
   );
 }
 
-export default MidfaceRatings;
+export default ProfileView;

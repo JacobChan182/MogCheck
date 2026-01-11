@@ -1,15 +1,14 @@
-import './RatingBox.css';
+import '../RatingBox.css';
 
-function LipPerioralArea({ data }) {
+function Chin({ data }) {
   const ratings = {
-    lip_to_chin_rating: data.lip_to_chin_rating,
-    cupid_bow_rating: data.cupid_bow_rating,
-    maxilla_support_rating: data.maxilla_support_rating
+    chin_projection_rating: data.chin_projection_rating,
+    chin_alignment_rating: data.chin_alignment_rating
   };
 
   return (
     <div className="rating-box">
-      <h3 className="rating-box-title">Lip/Perioral Area</h3>
+      <h3 className="rating-box-title">Chin</h3>
       <div className="rating-box-content">
         {Object.entries(ratings).map(([key, value]) => (
           <div key={key} className="rating-item">
@@ -22,4 +21,4 @@ function LipPerioralArea({ data }) {
   );
 }
 
-export default LipPerioralArea;
+export default Chin;

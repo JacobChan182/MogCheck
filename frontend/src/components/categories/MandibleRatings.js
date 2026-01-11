@@ -1,16 +1,14 @@
-import './RatingBox.css';
+import '../RatingBox.css';
 
-function ProfileView({ data }) {
+function MandibleRatings({ data }) {
   const ratings = {
-    facial_convexity_rating: data.facial_convexity_rating,
-    nose_lip_chin_harmony_rating: data.nose_lip_chin_harmony_rating,
-    jaw_recession_rating: data.jaw_recession_rating,
-    cervicomental_angle_rating: data.cervicomental_angle_rating
+    mandible_width_rating: data.mandible_width_rating,
+    ramus_height_rating: data.ramus_height_rating
   };
 
   return (
     <div className="rating-box">
-      <h3 className="rating-box-title">Profile View</h3>
+      <h3 className="rating-box-title">Mandible Ratings</h3>
       <div className="rating-box-content">
         {Object.entries(ratings).map(([key, value]) => (
           <div key={key} className="rating-item">
@@ -23,4 +21,4 @@ function ProfileView({ data }) {
   );
 }
 
-export default ProfileView;
+export default MandibleRatings;
