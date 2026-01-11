@@ -1,4 +1,4 @@
-import './RatingBox.css';
+import '../RatingBox.css';
 
 function RatingBox({ title, ratings }) {
   return (
@@ -8,7 +8,7 @@ function RatingBox({ title, ratings }) {
         {Object.entries(ratings).map(([key, value]) => (
           <div key={key} className="rating-item">
             <span className="rating-variable">{key}:</span>
-            <span className="rating-value">{value}</span>
+            <span className="rating-value">{value === 101 ? 'N/A' : value}</span>
           </div>
         ))}
       </div>
