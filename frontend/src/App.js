@@ -12,6 +12,7 @@ import NasalBoneStructureRatings from './components/categories/NasalBoneStructur
 import LipPerioralArea from './components/categories/LipPerioralArea';
 import SkinRating from './components/categories/SkinRating';
 import ProfileView from './components/categories/ProfileView';
+import VoiceCommands from './components/voice-activation/VoiceCommands';
 
 function App() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -110,28 +111,6 @@ function App() {
 
       const data = await res.json();
       setResponse(data);
-      
-      // Fetch insults based on the ratings
-      setLoadingInsults(true);
-      try {
-        const insultsRes = await fetch(`${API_URL}/api/insults/`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
-
-        if (insultsRes.ok) {
-          const insultsData = await insultsRes.json();
-          setInsults(insultsData.insults);
-        }
-      } catch (insultErr) {
-        console.error('Error fetching insults:', insultErr);
-        // Don't show error for insults, just continue without them
-      } finally {
-        setLoadingInsults(false);
-      }
     } catch (err) {
       console.error('API Error:', err);
       setError(err.message || 'An error occurred');
@@ -142,6 +121,15 @@ function App() {
 
   return (
     <div className="App">
+      <VoiceCommands
+        selectedImage={selectedImage}
+        setResponse={setResponse}
+        setLoading={setLoading}
+        setError={setError}
+        response={response}
+        setInsults={setInsults}
+        setLoadingInsults={setLoadingInsults}
+      />
       <header className="App-header">
         <h1>MogCheck</h1>
         
